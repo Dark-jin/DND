@@ -10,11 +10,15 @@ const Main = () => {
    const adddndbutton = () => {
       navigate('/AddDnd');
    };
+   const todobutton = () => {
+      navigate('/TodoDnd');
+   };
    return (
       <>
          <h1>Hello World!</h1>
          <Button onClick={dragbutton}>드래그 테스트</Button>
          <Button onClick={adddndbutton}>추가 드래그 테스트</Button>
+         <Button onClick={todobutton}>ToDoDND</Button>
       </>
    );
 };
