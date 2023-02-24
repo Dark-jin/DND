@@ -24,7 +24,7 @@ const TodoList: React.FC<Props> = ({
       <div>
          <div>
             <h2>MenuList 1</h2>
-            <Droppable droppableId="inbox-colum">
+            <Droppable droppableId="inbox-column">
                {provided => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                      <ul>
@@ -36,10 +36,10 @@ const TodoList: React.FC<Props> = ({
                                  index={index}
                                  todo={todo}
                                  key={todo.id}
-                                 todos={inProgressTodos}
+                                 todos={todos}
                                  setInbox={setTodos}
                                  inbox={todos}
-                                 setTodos={setInProgressTodos}
+                                 setTodos={setTodos}
                                  completed={completedTodos}
                                  setCompleted={setCompletedTodos}
                               />
@@ -94,10 +94,10 @@ const TodoList: React.FC<Props> = ({
                                  index={index}
                                  todo={todo}
                                  key={todo.id}
-                                 todos={inProgressTodos}
+                                 todos={completedTodos}
                                  setInbox={setTodos}
                                  inbox={todos}
-                                 setTodos={setInProgressTodos}
+                                 setTodos={setCompletedTodos}
                                  completed={completedTodos}
                                  setCompleted={setCompletedTodos}
                               />

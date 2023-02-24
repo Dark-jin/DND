@@ -37,6 +37,7 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, se
    };
    const handleDelete = (id: string) => {
       setTodos(todos.filter(todo => todo.id !== id));
+      console.log(todo.id);
    };
    const handleEdit = (e: React.FormEvent, id: string) => {
       e.preventDefault();
@@ -54,7 +55,7 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, se
          {provided => (
             <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                <form onSubmit={e => handleEdit(e, todo.id)}>
-                  <input checked={todo.isDone} onChange={() => handleDone(todo.id)} />
+                  {/* <input checked={todo.isDone} onChange={() => handleDone(todo.id)} /> */}
                   <span onClick={() => handleDone(todo.id)}></span>
                   {edit ? (
                      <textarea
@@ -63,11 +64,14 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, se
                            e.target.style.height = e.target.scrollHeight + 'px';
                            setEditTodo(e.target.value);
                         }}
+                        onBlur={e => handleEdit(e, todo.id)}
                         value={editTodo}></textarea>
                   ) : (
                      <span onClick={handleClickToEdit}>{todo.todo}</span>
                   )}
-                  <button type="button" onClick={() => handleDelete(todo.id)}></button>
+                  <button type="button" onClick={() => handleDelete(todo.id)}>
+                     삭제
+                  </button>
                </form>
             </li>
          )}
