@@ -23,13 +23,12 @@ const TodoDnd: React.FC = () => {
       if (!destination) return;
       if (source.droppableId === destination.droppableId && source.index === destination.index) return;
       let add: Item;
-      let inbox = items;
       let inprogress = inProgressTodos;
       let completed = completedTodos;
 
       if (source.droppableId === 'inbox-column') {
-         add = inbox[source.index];
-         inbox.splice(source.index, 1);
+         add = items[source.index];
+         items.splice(source.index, 1);
       } else if (source.droppableId === 'inprogress-column') {
          add = inprogress[source.index];
          inprogress.splice(source.index, 1);
@@ -39,14 +38,14 @@ const TodoDnd: React.FC = () => {
       }
 
       if (destination.droppableId === 'inbox-column') {
-         inbox.splice(destination.index, 0, { ...add, isDone: false });
+         items.splice(destination.index, 0, { ...add, isDone: false });
       } else if (destination.droppableId === 'inprogress-column') {
          inprogress.splice(destination.index, 0, { ...add, isDone: false });
       } else {
          completed.splice(destination.index, 0, { ...add, isDone: true });
       }
 
-      setItems(inbox);
+      setItems(items);
       setInProgressTodos(inprogress);
       setCompletedTodos(completed);
    };
