@@ -1,6 +1,7 @@
 import { Droppable } from 'react-beautiful-dnd';
 import { Todo } from '../models/todo';
 import TodoItem from './TodoItem';
+import React from 'react';
 
 interface Props {
    todos: Todo[];
@@ -27,9 +28,23 @@ const TodoList: React.FC<Props> = ({
                {provided => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                      <ul>
-                        {todos.map((todo, index) => (
-                           <TodoItem index={index} todo={todo} key={todo.id} todos={todos} setTodos={setTodos} />
-                        ))}
+                        {todos.length === 0 ? (
+                           <p>No Item</p>
+                        ) : (
+                           todos.map((todo, index) => (
+                              <TodoItem
+                                 index={index}
+                                 todo={todo}
+                                 key={todo.id}
+                                 todos={inProgressTodos}
+                                 setInbox={setTodos}
+                                 inbox={todos}
+                                 setTodos={setInProgressTodos}
+                                 completed={completedTodos}
+                                 setCompleted={setCompletedTodos}
+                              />
+                           ))
+                        )}
                         {provided.placeholder}
                      </ul>
                   </div>
@@ -38,13 +53,27 @@ const TodoList: React.FC<Props> = ({
          </div>
          <div>
             <h2>MenuList 2</h2>
-            <Droppable droppableId="inbox-colum">
+            <Droppable droppableId="inprogress-column">
                {provided => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                      <ul>
-                        {todos.map((todo, index) => (
-                           <TodoItem index={index} todo={todo} key={todo.id} todos={todos} setTodos={setTodos} />
-                        ))}
+                        {inProgressTodos.length === 0 ? (
+                           <p>No Item</p>
+                        ) : (
+                           inProgressTodos.map((todo, index) => (
+                              <TodoItem
+                                 index={index}
+                                 todo={todo}
+                                 key={todo.id}
+                                 todos={inProgressTodos}
+                                 setInbox={setTodos}
+                                 inbox={todos}
+                                 setTodos={setInProgressTodos}
+                                 completed={completedTodos}
+                                 setCompleted={setCompletedTodos}
+                              />
+                           ))
+                        )}
                         {provided.placeholder}
                      </ul>
                   </div>
@@ -53,13 +82,27 @@ const TodoList: React.FC<Props> = ({
          </div>
          <div>
             <h2>MenuList 3</h2>
-            <Droppable droppableId="inbox-colum">
+            <Droppable droppableId="completed-column">
                {provided => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                      <ul>
-                        {todos.map((todo, index) => (
-                           <TodoItem index={index} todo={todo} key={todo.id} todos={todos} setTodos={setTodos} />
-                        ))}
+                        {completedTodos.length === 0 ? (
+                           <p>No Item</p>
+                        ) : (
+                           completedTodos.map((todo, index) => (
+                              <TodoItem
+                                 index={index}
+                                 todo={todo}
+                                 key={todo.id}
+                                 todos={inProgressTodos}
+                                 setInbox={setTodos}
+                                 inbox={todos}
+                                 setTodos={setInProgressTodos}
+                                 completed={completedTodos}
+                                 setCompleted={setCompletedTodos}
+                              />
+                           ))
+                        )}
                         {provided.placeholder}
                      </ul>
                   </div>

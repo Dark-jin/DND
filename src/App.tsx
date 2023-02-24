@@ -3,6 +3,7 @@ import './index.css';
 import { Main } from './pages';
 import Dragtest from './pages/Dragtest';
 import AddDnd from './pages/AddDnd';
+import TodoDnd from './pages/TodoDnd';
 
 function App() {
    return (
@@ -10,6 +11,7 @@ function App() {
          <Route path="/" element={<Main />} />
          <Route path="/DragTest" element={<Dragtest />} />
          <Route path="/AddDnd" element={<AddDnd />} />
+         <Route path="/TodoDnd" element={<TodoDnd />} />
       </Routes>
    );
 }

@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Todo } from '../models/todo';
+import React from 'react';
 
 interface Props {
    index: number;
    todo: Todo;
    todos: Todo[];
-   //inbox: Todo[];
-   //completed: Todo[];
+   inbox: Todo[];
+   completed: Todo[];
    setTodos: (s: Todo[]) => void;
-   //setInbox: (s: Todo[]) => void;
-   //setCompleted: (s: Todo[]) => void;
+   setInbox: (s: Todo[]) => void;
+   setCompleted: (s: Todo[]) => void;
 }
-const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos }) => {
+const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, setCompleted, inbox, setInbox }) => {
    const [edit, setEdit] = useState<boolean>(false);
    const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -28,8 +29,10 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos }) => {
    const handleDone = (id: string) => {
       if (todo.isDone) {
          setTodos(todos.filter(todo => todo.id !== id));
+         setInbox([...inbox, { ...todo, isDone: false }]);
       } else {
          setTodos(todos.filter(todo => todo.id !== id));
+         setCompleted([...completed, { ...todo, isDone: true }]);
       }
    };
    const handleDelete = (id: string) => {
@@ -51,7 +54,8 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos }) => {
          {provided => (
             <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                <form onSubmit={e => handleEdit(e, todo.id)}>
-                  <input onChange={() => handleDone(todo.id)} />
+                  <input checked={todo.isDone} onChange={() => handleDone(todo.id)} />
+                  <span onClick={() => handleDone(todo.id)}></span>
                   {edit ? (
                      <textarea
                         ref={textareaRef}
@@ -61,8 +65,9 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos }) => {
                         }}
                         value={editTodo}></textarea>
                   ) : (
-                     <button type="button" onClick={() => handleDelete(todo.id)}></button>
+                     <span onClick={handleClickToEdit}>{todo.todo}</span>
                   )}
+                  <button type="button" onClick={() => handleDelete(todo.id)}></button>
                </form>
             </li>
          )}

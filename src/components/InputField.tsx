@@ -3,10 +3,10 @@ import React from 'react';
 interface Props {
    todo: string;
    setTodo: React.Dispatch<React.SetStateAction<string>>;
-   setPriority: React.Dispatch<React.SetStateAction<string>>;
+   //setPriority: React.Dispatch<React.SetStateAction<string>>;
    handleAdd: (e: React.FormEvent) => void;
 }
-const InputField: React.FC<Props> = ({ todo, setTodo, setPriority, handleAdd }) => {
+const InputField: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
    return (
       <div>
          <form onSubmit={handleAdd}>
