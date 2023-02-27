@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { Todo } from '../models/todo';
+import { Item } from '../models/Item';
 import React from 'react';
+import daisyui from 'daisyui';
 
 interface Props {
    index: number;
-   todo: Todo;
-   todos: Todo[];
-   inbox: Todo[];
-   completed: Todo[];
-   setTodos: (s: Todo[]) => void;
-   setInbox: (s: Todo[]) => void;
-   setCompleted: (s: Todo[]) => void;
+   item: Item;
+   items: Item[];
+   inbox: Item[];
+   completed: Item[];
+   setItems: (s: Item[]) => void;
+   setCompleted: (s: Item[]) => void;
 }
-const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, setCompleted, inbox, setInbox }) => {
+const TodoItem: React.FC<Props> = ({ index, item, items, setItems, completed, setCompleted }) => {
    const [edit, setEdit] = useState<boolean>(false);
-   const [editTodo, setEditTodo] = useState<string>(todo.todo);
+   const [editTodo, setEditTodo] = useState<string>(item.item);
 
    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -27,36 +27,37 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, se
    }, [edit]);
 
    const handleDone = (id: string) => {
-      if (todo.isDone) {
-         setTodos(todos.filter(todo => todo.id !== id));
-         setInbox([...inbox, { ...todo, isDone: false }]);
+      if (item.isDone) {
+         setItems(items.filter(item => item.id !== id));
       } else {
-         setTodos(todos.filter(todo => todo.id !== id));
-         setCompleted([...completed, { ...todo, isDone: true }]);
+         setItems(items.filter(item => item.id !== id));
+         setCompleted([...completed, { ...item, isDone: true }]);
       }
    };
    const handleDelete = (id: string) => {
-      setTodos(todos.filter(todo => todo.id !== id));
-      console.log(todo.id);
+      setItems(items.filter(item => item.id !== id));
    };
    const handleEdit = (e: React.FormEvent, id: string) => {
       e.preventDefault();
-      setTodos(todos.map(todo => (todo.id === id ? { ...todo, todo: editTodo } : todo)));
+      setItems(items.map(item => (item.id === id ? { ...item, item: editTodo } : item)));
       setEdit(false);
    };
    const handleClickToEdit = () => {
-      if (!edit && !todo.isDone) {
+      if (!edit && !item.isDone) {
          setEdit(!edit);
       }
    };
 
    return (
-      <Draggable draggableId={todo.id.toString()} index={index}>
+      <Draggable draggableId={item.id.toString()} index={index}>
          {provided => (
-            <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-               <form onSubmit={e => handleEdit(e, todo.id)}>
-                  {/* <input checked={todo.isDone} onChange={() => handleDone(todo.id)} /> */}
-                  <span onClick={() => handleDone(todo.id)}></span>
+            <li
+               className="card card-side bg-base-100 shadow-xl "
+               ref={provided.innerRef}
+               {...provided.draggableProps}
+               {...provided.dragHandleProps}>
+               <form onSubmit={e => handleEdit(e, item.id)}>
+                  <span onClick={() => handleDone(item.id)}></span>
                   {edit ? (
                      <textarea
                         ref={textareaRef}
@@ -64,14 +65,16 @@ const TodoItem: React.FC<Props> = ({ index, todo, todos, setTodos, completed, se
                            e.target.style.height = e.target.scrollHeight + 'px';
                            setEditTodo(e.target.value);
                         }}
-                        onBlur={e => handleEdit(e, todo.id)}
+                        onBlur={e => handleEdit(e, item.id)}
                         value={editTodo}></textarea>
                   ) : (
-                     <span onClick={handleClickToEdit}>{todo.todo}</span>
+                     <span onClick={handleClickToEdit}>{item.item}</span>
                   )}
-                  <button type="button" onClick={() => handleDelete(todo.id)}>
-                     삭제
-                  </button>
+                  <div className="card-actions justify-end">
+                     <button className="btn btn-primary" type="button" onClick={() => handleDelete(item.id)}>
+                        삭제
+                     </button>
+                  </div>
                </form>
             </li>
          )}

@@ -1,20 +1,20 @@
 import { Droppable } from 'react-beautiful-dnd';
-import { Todo } from '../models/todo';
+import { Item } from '../models/Item';
 import TodoItem from './TodoItem';
 import React from 'react';
 
 interface Props {
-   todos: Todo[];
-   setTodos: (s: Todo[]) => void;
-   inProgressTodos: Todo[];
-   setInProgressTodos: (s: Todo[]) => void;
-   completedTodos: Todo[];
-   setCompletedTodos: (s: Todo[]) => void;
+   items: Item[];
+   setItems: (s: Item[]) => void;
+   inProgressTodos: Item[];
+   setInProgressTodos: (s: Item[]) => void;
+   completedTodos: Item[];
+   setCompletedTodos: (s: Item[]) => void;
 }
 
 const TodoList: React.FC<Props> = ({
-   todos,
-   setTodos,
+   items,
+   setItems,
    inProgressTodos,
    setInProgressTodos,
    completedTodos,
@@ -28,18 +28,17 @@ const TodoList: React.FC<Props> = ({
                {provided => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                      <ul>
-                        {todos.length === 0 ? (
+                        {items.length === 0 ? (
                            <p>No Item</p>
                         ) : (
-                           todos.map((todo, index) => (
+                           items.map((item, index) => (
                               <TodoItem
                                  index={index}
-                                 todo={todo}
-                                 key={todo.id}
-                                 todos={todos}
-                                 setInbox={setTodos}
-                                 inbox={todos}
-                                 setTodos={setTodos}
+                                 item={item}
+                                 key={item.id}
+                                 items={items}
+                                 inbox={items}
+                                 setItems={setItems}
                                  completed={completedTodos}
                                  setCompleted={setCompletedTodos}
                               />
@@ -60,15 +59,14 @@ const TodoList: React.FC<Props> = ({
                         {inProgressTodos.length === 0 ? (
                            <p>No Item</p>
                         ) : (
-                           inProgressTodos.map((todo, index) => (
+                           inProgressTodos.map((item, index) => (
                               <TodoItem
                                  index={index}
-                                 todo={todo}
-                                 key={todo.id}
-                                 todos={inProgressTodos}
-                                 setInbox={setTodos}
-                                 inbox={todos}
-                                 setTodos={setInProgressTodos}
+                                 item={item}
+                                 key={item.id}
+                                 items={inProgressTodos}
+                                 inbox={items}
+                                 setItems={setInProgressTodos}
                                  completed={completedTodos}
                                  setCompleted={setCompletedTodos}
                               />
@@ -89,15 +87,14 @@ const TodoList: React.FC<Props> = ({
                         {completedTodos.length === 0 ? (
                            <p>No Item</p>
                         ) : (
-                           completedTodos.map((todo, index) => (
+                           completedTodos.map((item, index) => (
                               <TodoItem
                                  index={index}
-                                 todo={todo}
-                                 key={todo.id}
-                                 todos={completedTodos}
-                                 setInbox={setTodos}
-                                 inbox={todos}
-                                 setTodos={setCompletedTodos}
+                                 item={item}
+                                 key={item.id}
+                                 items={completedTodos}
+                                 inbox={items}
+                                 setItems={setCompletedTodos}
                                  completed={completedTodos}
                                  setCompleted={setCompletedTodos}
                               />

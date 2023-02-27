@@ -17,6 +17,7 @@
     "@types/uuid": "9.0.1",
     "autoprefixer": "^10.4.13",
     "axios": "^1.2.6",
+    "daisyui": "2.51.1",
     "eslint": "^8.28.0",
     "eslint-plugin-prettier": "^4.2.1",
     "postcss": "^8.4.21",

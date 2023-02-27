@@ -2,34 +2,33 @@ import React, { useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import TodoList from '../components/TodoList';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { Todo } from '../models/todo';
+import { Item } from '../models/Item';
 import { v1 as uuid } from 'uuid';
 import InputField from '../components/InputField';
 
 const TodoDnd: React.FC = () => {
-   const [todo, setTodo] = useState<string>('');
-   const [todos, setTodos] = useLocalStorage<Todo[]>('todos', []);
-   const [inProgressTodos, setInProgressTodos] = useLocalStorage<Todo[]>('inprogress', []);
-   const [completedTodos, setCompletedTodos] = useLocalStorage<Todo[]>('completed', []);
+   const [item, setItem] = useState<string>('');
+   const [items, setItems] = useLocalStorage<Item[]>('todos', []);
+   const [inProgressTodos, setInProgressTodos] = useLocalStorage<Item[]>('inprogress', []);
+   const [completedTodos, setCompletedTodos] = useLocalStorage<Item[]>('completed', []);
    const handleAdd = (e: React.FormEvent) => {
       e.preventDefault();
-      if (todo) {
-         setTodos([...todos, { id: uuid(), todo, isDone: false }]);
-         setTodo('');
+      if (item) {
+         setItems([...items, { id: uuid(), item, isDone: false }]);
+         setItem('');
       }
    };
    const onDragEnd = (result: DropResult) => {
       const { source, destination } = result;
       if (!destination) return;
       if (source.droppableId === destination.droppableId && source.index === destination.index) return;
-      let add: Todo;
-      let inbox = todos;
+      let add: Item;
       let inprogress = inProgressTodos;
       let completed = completedTodos;
 
       if (source.droppableId === 'inbox-column') {
-         add = inbox[source.index];
-         inbox.splice(source.index, 1);
+         add = items[source.index];
+         items.splice(source.index, 1);
       } else if (source.droppableId === 'inprogress-column') {
          add = inprogress[source.index];
          inprogress.splice(source.index, 1);
@@ -39,14 +38,14 @@ const TodoDnd: React.FC = () => {
       }
 
       if (destination.droppableId === 'inbox-column') {
-         inbox.splice(destination.index, 0, { ...add, isDone: false });
+         items.splice(destination.index, 0, { ...add, isDone: false });
       } else if (destination.droppableId === 'inprogress-column') {
          inprogress.splice(destination.index, 0, { ...add, isDone: false });
       } else {
          completed.splice(destination.index, 0, { ...add, isDone: true });
       }
 
-      setTodos(inbox);
+      setItems(items);
       setInProgressTodos(inprogress);
       setCompletedTodos(completed);
    };
@@ -55,10 +54,10 @@ const TodoDnd: React.FC = () => {
       <>
          <DragDropContext onDragEnd={onDragEnd}>
             <div>
-               <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+               <InputField item={item} setItem={setItem} handleAdd={handleAdd} />
                <TodoList
-                  todos={todos}
-                  setTodos={setTodos}
+                  items={items}
+                  setItems={setItems}
                   inProgressTodos={inProgressTodos}
                   setInProgressTodos={setInProgressTodos}
                   completedTodos={completedTodos}
