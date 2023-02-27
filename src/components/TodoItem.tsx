@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Item } from '../models/Item';
 import React from 'react';
+import daisyui from 'daisyui';
 
 interface Props {
    index: number;
@@ -50,7 +51,11 @@ const TodoItem: React.FC<Props> = ({ index, item, items, setItems, completed, se
    return (
       <Draggable draggableId={item.id.toString()} index={index}>
          {provided => (
-            <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <li
+               className="card card-side bg-base-100 shadow-xl "
+               ref={provided.innerRef}
+               {...provided.draggableProps}
+               {...provided.dragHandleProps}>
                <form onSubmit={e => handleEdit(e, item.id)}>
                   <span onClick={() => handleDone(item.id)}></span>
                   {edit ? (
@@ -65,9 +70,11 @@ const TodoItem: React.FC<Props> = ({ index, item, items, setItems, completed, se
                   ) : (
                      <span onClick={handleClickToEdit}>{item.item}</span>
                   )}
-                  <button type="button" onClick={() => handleDelete(item.id)}>
-                     삭제
-                  </button>
+                  <div className="card-actions justify-end">
+                     <button className="btn btn-primary" type="button" onClick={() => handleDelete(item.id)}>
+                        삭제
+                     </button>
+                  </div>
                </form>
             </li>
          )}

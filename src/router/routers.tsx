@@ -3,6 +3,7 @@ import AddDnd from '../pages/AddDnd';
 import Dragtest from '../pages/Dragtest';
 import TodoDnd from '../pages/TodoDnd';
 import Menu from '../pages/Menu';
+import ImageUpload from '../pages/ImageUpload';
 
 const Router = [
    {
@@ -29,6 +30,11 @@ const Router = [
       title: 'Menudnd',
       url: 'Menudnd',
       component: <Menu />,
+   },
+   {
+      title: 'ImageUpload',
+      url: 'ImageUpload',
+      component: <ImageUpload />,
    },
 ];
 export default Router;
