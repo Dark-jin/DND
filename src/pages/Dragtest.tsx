@@ -36,13 +36,13 @@ const Dragtest = () => {
     setTestState(items);
   };
   return (
-    <div>
+    <div className="text-center">
       <h1>react-beautiful-dnd Demo</h1>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="first-box">
           {(provided) => (
             <ul
-              className="list-none"
+              className="list-none w-96"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
